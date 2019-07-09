@@ -65,6 +65,7 @@ func TestWildFlyServerControllerCreatesStatefulSet(t *testing.T) {
 			Namespace: namespace,
 		},
 	}
+	// statefulset will be created
 	res, err := r.Reconcile(req)
 	require.NoError(t, err)
 

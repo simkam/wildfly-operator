@@ -12,8 +12,8 @@ import (
 // +k8s:openapi-gen=true
 type WildFlyServerSpec struct {
 	// ApplicationImage is the name of the application image to be deployed
-	ApplicationImage    string                   `json:"applicationImage"`
-	Size                int32                    `json:"size"`
+	ApplicationImage string `json:"applicationImage"`
+	Size             int32  `json:"size"`
 	//SessionAffinity defines if connections from the same client ip are passed to the same WildFlyServer instance/pod each time
 	SessionAffinity     bool                     `json:"sessionAffinity,omitempty"`
 	DisableHTTPRoute    bool                     `json:"disableHTTPRoute,omitempty"`
@@ -44,13 +44,38 @@ type StorageSpec struct {
 type WildFlyServerStatus struct {
 	Pods  []PodStatus `json:"pods,omitempty"`
 	Hosts []string    `json:"hosts,omitempty"`
+	// Represents the number of pods which are in scaledown process
+	// what particular pod is scaling down can be verified by PodStatus
+	//
+	// Read-only.
+	ScalingdownPods int32 `json:"scalingdownPods"`
 }
+
+const (
+	// PodStateActive represents PodStatus.State when pod is active to serve requests
+	// it's connected in the Service load balancer
+	PodStateActive = "ACTIVE"
+	// PodStateScalingDownDirty represents the PodStatus.State when pod is not active to serve requests,
+	// it's in state of scaling down and it's dirty
+	// 'dirty' means it's not ready for being removed from the kubernetes cluster
+	// some processing (e.g. transaction recovery) needs to be finished first
+	PodStateScalingDownDirty = "SCALE_DOWN_DIRTY"
+	// PodStateScalingDownClean represents the PodStatus.State when pod is not active to serve requests
+	// it's in state of scaling down and it's clean
+	// 'clean' means it's ready to be removed from the kubernetes cluster
+	PodStateScalingDownClean = "SCALE_DOWN_CLEAN"
+)
 
 // PodStatus defines the observed state of pods running the WildFlyServer application
 // +k8s:openapi-gen=true
 type PodStatus struct {
 	Name  string `json:"name"`
 	PodIP string `json:"podIP"`
+	// Represent the state of the Pod, it's used especially during scale down
+	// the expected values are represented by the PodState* constants
+	//
+	// Read-only.
+	State string `json:"state"`
 }
 
 // WildFlyServer is the Schema for the wildflyservers API

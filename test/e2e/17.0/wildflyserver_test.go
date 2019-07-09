@@ -34,6 +34,7 @@ func TestWildFly17Server(t *testing.T) {
 	// run subtests
 	t.Run("BasicTest", wildFlyBasicTest)
 	t.Run("ClusterTest", wildFlyClusterTest)
+	t.Run("SmokeRecoveryScaledownTest", wildFlySmokeRecoveryScaledownTest)
 }
 
 func wildFlyBasicTest(t *testing.T) {
@@ -42,4 +43,8 @@ func wildFlyBasicTest(t *testing.T) {
 
 func wildFlyClusterTest(t *testing.T) {
 	wildflyframework.WildFlyClusterTest(t, "17.0")
+}
+
+func wildFlySmokeRecoveryScaledownTest(t *testing.T) {
+	wildflyframework.WildFlySmokeRecoveryScaledownTest(t, "17.0")
 }

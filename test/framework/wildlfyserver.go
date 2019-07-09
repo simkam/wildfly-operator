@@ -76,7 +76,7 @@ func WaitUntilReady(f *framework.Framework, t *testing.T, server *wildflyv1alpha
 	ns := server.ObjectMeta.Namespace
 	size := server.Spec.Size
 
-	t.Logf("Waiting until statefulset %s is ready", name)
+	t.Logf("Waiting until statefulset %s is ready with size of %v", name, size)
 
 	err := wait.Poll(retryInterval, timeout, func() (done bool, err error) {
 
