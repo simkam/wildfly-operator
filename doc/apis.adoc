@@ -48,6 +48,7 @@ It uses a `StatefulSet` with a pod spec that mounts the volume specified by `sto
 | `env` | List of environment variable present in the containers | []https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.11/#envvar-v1-core[corev1.EnvVar] | false
 | `disableHTTPRoute`| Disable the creation a route to the HTTP port of the application service | bool | false
 | `sessionAffinity`| If connections from the same client ip are passed to the same WildFlyServer instance/pod each time | bool | false
+| `jbossHome` | Definition of the JBOSS_HOME directory in the container. It's used by the scale down processing which runs jboss-cli scripts. | string | false
 |=======================
 
 
@@ -87,6 +88,7 @@ a default `EmptyDir` will be used.
 | Field  | Description |Scheme| Required
 | `hosts` | Hosts that route to the application HTTP service | []string | true
 | `pods` | Status of the pods | []<<podstatus>> | true
+| `scalingdownPods` | Number of pods which are under scale down cleaning process | int32 | true
 |=======================
 
 [[podstatus]]
@@ -99,4 +101,5 @@ a default `EmptyDir` will be used.
 | Field  | Description |Scheme| Required
 | `name` | Name of the Pod | string | true
 | `podIP` | IP address allocated to the pod | string | true
+| `state` | State of the pod from perspective of scale down process. By default it's active which means it serves requests.  | string | false
 |=======================

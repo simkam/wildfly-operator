@@ -34,6 +34,7 @@ spec:
                 be deployed
               type: string
             disableHTTPRoute:
+              description: 'TODO: how to use this?'
               type: boolean
             env:
               description: Env contains environment variables for the containers running
@@ -45,6 +46,10 @@ spec:
               items:
                 type: object
               type: array
+            jbossHome:
+              description: JBossHome defines place where jboss distribution is located
+                at the docker image defined by ApplicationImage
+              type: string
             serviceAccountName:
               type: string
             sessionAffinity:
@@ -87,11 +92,24 @@ spec:
                     type: string
                   podIP:
                     type: string
+                  state:
+                    description: Represent the state of the Pod, it's used especially
+                      during scale down the expected values are represented by the
+                      PodState* constants  Read-only.
+                    type: string
                 required:
                 - name
                 - podIP
+                - state
                 type: object
               type: array
+            scalingdownPods:
+              description: Represents the number of pods which are in scaledown process
+                what particular pod is scaling down can be verified by PodStatus  Read-only.
+              format: int32
+              type: integer
+          required:
+          - scalingdownPods
           type: object
   version: v1alpha1
   versions:
