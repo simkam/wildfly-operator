@@ -1,0 +1,4 @@
+packageName: eap
+channels:
+- name: alpha
+  currentCSV: eap-operator.v0.1.0
