@@ -41,7 +41,7 @@ const (
 	httpManagementPort             int32 = 9990
 	defaultRecoveryPort            int32 = 4712
 	wildflyServerFinalizer               = "finalizer.wildfly.org"
-	wildflyHome                          = "/wildfly"
+	wildflyHome                          = "/opt/eap"
 	standaloneServerDataDirSuffix        = "/standalone/data"                // data directory where runtime data is saved
 	wftcDataDirName                      = "ejb-xa-recovery"                 // data directory where WFTC stores transaction runtime data
 	labelMarkerOperatedByService         = "wildfly.org/operated-by-service" // label used to remove a pod from receiving load from service during transaction recovery
